@@ -1,7 +1,7 @@
 
 
 const noble = require('noble');
-const bleno = require('bleno');
+// const bleno = require('bleno');
 
 
 // noble.startScanning(function(error, data){
@@ -34,7 +34,7 @@ noble.on('scanStart', function(data){
 
 noble.on('discover', function(peripheral){
 
-	console.log(peripheral)
+	//console.log(peripheral)
 
 	console.log("ID: " + peripheral.id)
 	console.log("UUID: " + peripheral.uuid)
@@ -58,30 +58,33 @@ noble.on('discover', function(peripheral) {
     console.log('connected to peripheral: ' + peripheral.uuid);
     peripheral.discoverServices(null, function(error, services) {
     	for(var i in services){
-    		console.log("Name: " + services[i].name);
+    		console.log("Name: " + services[i]);
 
-    	}
-      // var deviceInformationService = services[0];
-      // console.log('discovered device information service');
-      // console.log("Name: " + services[0].name);
+    	
+	      var deviceInformationService = services[i];
+	      console.log('discovered device information service');
+	      console.log("Name: " + services[i].name);
 
-      // deviceInformationService.discoverCharacteristics(['2a29'], function(error, characteristics) {
-      //   console.log('discovered the following characteristics:');
-      //   for (var i in characteristics) {
-      //     console.log('  ' + i + ' uuid: ' + characteristics[i].uuid);
-      //     console.log('  ' + i + ' name: ' + characteristics[i].name);
-      // 	}
+	      deviceInformationService.discoverCharacteristics([], function(error, characteristics) {
+	        console.log('discovered the following characteristics for: ');
+	        for (var i in characteristics) {
+	          console.log('  ' + i + ' uuid: ' + characteristics[i].uuid);
+	          console.log('  ' + i + ' name: ' + characteristics[i].name);
+	      	}
 
-      //     let characteristic = characteristics[0];
-      //     characteristic.read(function(error, data) {
-      //     // data is a buffer
-      //     console.log('manufacture name is: ' + data.toString('utf8'));
-      //   });
+      		})
+      	}
+
+        //   let characteristic = characteristics[0];
+        //   characteristic.read(function(error, data) {
+        //   // data is a buffer
+        //   console.log('manufacture name is: ' + data.toString('utf8'));
+        // });
         
-      // })
+      })
     })
   })
-})
+
 
 
 
